@@ -1,1 +1,1 @@
-# deep-learning-architecture-evaluation
+# deep-learning-model-evaluation
