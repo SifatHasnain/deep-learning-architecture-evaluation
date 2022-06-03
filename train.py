@@ -41,3 +41,4 @@ if __name__ == '__main__':
                         validation_steps= valid_dataset.samples // config.BATCH_SIZE,
                         callbacks=callback_list,
                         verbose=0)
+    model.save(config.model_dir)
