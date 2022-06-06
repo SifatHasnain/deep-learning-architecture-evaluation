@@ -11,20 +11,20 @@ def generate_train_dataset(config):
                     shear_range=0.1,
                     zoom_range=0.1)
 
-    train_generator = train_datagen.flow_from_directory(config.train_dir,
-                                                        target_size=(config.image_height, config.image_width),
+    train_generator = train_datagen.flow_from_directory(config[0],
+                                                        target_size=(config[2], config[3]),
                                                         color_mode="rgb",
-                                                        batch_size=config.TRAIN_BATCH_SIZE,
+                                                        batch_size=config[4],
                                                         seed=1,
                                                         shuffle=True,
                                                         class_mode="categorical")
 
     #valid
     valid_datagen = ImageDataGenerator(rescale=1.0/255.0)
-    valid_generator = valid_datagen.flow_from_directory(config.valid_dir,
-                                                        target_size=(config.image_height, config.image_width),
+    valid_generator = valid_datagen.flow_from_directory(config[1],
+                                                        target_size=(config[2], config[3]),
                                                         color_mode="rgb",
-                                                        batch_size=config.VALID_BATCH_SIZE,
+                                                        batch_size=config[5],
                                                         seed=7,
                                                         shuffle=True,
                                                         class_mode="categorical"
@@ -35,10 +35,10 @@ def generate_train_dataset(config):
 def generate_test_dataset(config):
     #test
     test_datagen = ImageDataGenerator(rescale=1.0/255.0)
-    test_generator = test_datagen.flow_from_directory(config.test_dir,
-                                                        target_size=(config.image_height, config.image_width),
+    test_generator = test_datagen.flow_from_directory(config[0],
+                                                        target_size=(config[1], config[2]),
                                                         color_mode="rgb",
-                                                        batch_size=config.TEST_BATCH_SIZE,
+                                                        batch_size=config[3],
                                                         seed=7,
                                                         shuffle=True,
                                                         class_mode="categorical"
