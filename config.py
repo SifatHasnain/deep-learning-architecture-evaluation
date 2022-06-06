@@ -8,7 +8,7 @@ image_height = 227
 image_width = 227
 num_channels = 3
 
-EPOCHS = 30
+EPOCHS = 3
 TRAIN_BATCH_SIZE = 2
 VALID_BATCH_SIZE = 2
 TEST_BATCH_SIZE = 32
@@ -27,10 +27,10 @@ model = "alexNet"
 # model = "inception"
 
 # paths and directories
-result_dir = 'results'
-train_dir = "./datasets/dogcat/train"
-valid_dir = "./datasets/dogcat/validation"
-test_dir = "./datasets/dogcat/test"
+result_dir = '/content/deep-learning-model-evaluation/results'
+train_dir = "/content/deep-learning-model-evaluation/datasets/DogvCat/train"
+valid_dir = "/content/deep-learning-model-evaluation/datasets/DogvCat/valid"
+test_dir = "/content/deep-learning-model-evaluation/datasets/DogvCat/test"
 
 # model version
 ## follow this versioning rule 
