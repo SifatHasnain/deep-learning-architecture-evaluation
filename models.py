@@ -50,6 +50,3 @@ class AlexNet(Sequential):
         self.compile(optimizer= tf.keras.optimizers.SGD(0.01, 0.9),
                     loss='categorical_crossentropy',
                     metrics=['accuracy'])
-
-def Alexnet():
-    return AlexNet()
