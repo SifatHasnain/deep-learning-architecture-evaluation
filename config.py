@@ -1,15 +1,41 @@
+import os
+from unittest import result
+
 num_classes = 2
 class_names = ['cat', 'dog']
-EPOCHS = 100
-BATCH_SIZE = 2
-image_height = 224
-image_width = 224
-channels=3
+
+image_height = 227
+image_width = 227
+num_channels = 3
+
+EPOCHS = 30
+TRAIN_BATCH_SIZE = 2
+VALID_BATCH_SIZE = 2
+TEST_BATCH_SIZE = 32
+
+optimizer = "sgd"
+optimizer = "adam"
+optimizer = "rmsprop"
+
+learning_rate = 0.01
+momentum = 0.9
+
+# networks
+# model = "cnn"
+model = "alexNet"
+# model = "resnet"
+# model = "inception"
+
+# paths and directories
+result_dir = 'results'
 train_dir = "./datasets/dogcat/train"
 valid_dir = "./datasets/dogcat/validation"
 test_dir = "./datasets/dogcat/test"
-model_dir = "./alexnet_dogcat.h5"
 
-#networks
-model = "AlexNet"
-
+# model version
+## follow this versioning rule 
+### cnn -> 1.0.
+### alexnet -> 2.0.
+### resnet -> 3.0.
+### inception -> 4.0.
+version = '1.0'
