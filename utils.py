@@ -1,9 +1,9 @@
 import os
 from sklearn.metrics import confusion_matrix
 import numpy as np
+from tensorflow import keras
 
 import config
-from train import model
 from dataprep import generate_test_dataset 
 
 def evaluate():
@@ -13,6 +13,12 @@ def evaluate():
     test_dataset = generate_test_dataset(test_data_config)
         
     x_test, label_batch  = next(iter(test_dataset))
+
+    result_save_path = os.path.join(config.result_dir, config.model)
+    model_name="{}_{}_dogcat.h5".format(config.model, config.version)
+    model_save_path = os.path.join(result_save_path, model_name)
+    
+    model=keras.models.load_model(model_save_path)
 
     # plot the images: each image is 227x227 pixels
     # for i in range(8):
