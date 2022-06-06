@@ -10,14 +10,15 @@ from dataprep import generate_train_dataset
 
 def get_model(model_name, input_shape, num_channels, num_classes):
     
-    if model_name == "cnn":
-        model = models.CNN()
-    elif model_name == "alexnet":
-        model = models.Alexnet(input_shape.image_height, input_shape.image_width)
-    elif model_name == "resnet":
-        model = models.Resnet()
-    else:
-        model = models.InceptionNet()
+    model = models.Alexnet(input_shape.image_height, input_shape.image_width)
+    # if model_name == "cnn":
+    #     model = models.CNN()
+    # elif model_name == "alexnet":
+    #     model = models.Alexnet(input_shape.image_height, input_shape.image_width)
+    # elif model_name == "resnet":
+    #     model = models.Resnet()
+    # else:
+    #     model = models.InceptionNet()
 
     model.build(input_shape=(input_shape.image_height, input_shape.image_width, num_channels), num_classes=num_classes)
     model.summary()
