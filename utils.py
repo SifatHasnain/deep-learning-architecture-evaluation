@@ -6,7 +6,7 @@ from tensorflow import keras
 import config
 from dataprep import generate_test_dataset 
 
-def evaluate():
+if __name__ == '__main__':
     
     # get the test_dataset
     test_data_config = (config.test_dir, config.image_height, config.image_width, config.TEST_BATCH_SIZE)
@@ -47,4 +47,4 @@ def evaluate():
     
     accuracy = model.evaluate(x_test,label_batch)
 
-    return pred, label, x_test, cf, accuracy
+    #return pred, label, x_test, cf, accuracy
