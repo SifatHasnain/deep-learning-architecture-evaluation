@@ -8,9 +8,9 @@ import config
 import models
 from dataprep import generate_train_dataset
 
-def get_model(model_name, input_shape, num_channels, num_classes):
+def get_model(model_name, input_shape, num_classes):
     
-    model = models.Alexnet(input_shape.image_height, input_shape.image_width)
+    model = models.AlexNet(input_shape,num_classes)
     # if model_name == "cnn":
     #     model = models.CNN()
     # elif model_name == "alexnet":
@@ -20,7 +20,7 @@ def get_model(model_name, input_shape, num_channels, num_classes):
     # else:
     #     model = models.InceptionNet()
 
-    model.build(input_shape=(input_shape.image_height, input_shape.image_width, num_channels), num_classes=num_classes)
+    #model.build(input_shape=(input_shape.image_height, input_shape.image_width, num_channels), num_classes=num_classes)
     model.summary()
 
     return model
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     train_dataset, valid_dataset = generate_train_dataset(train_data_config)
 
     # create model
-    model = get_model(config.model, (config.image_height, config.image_width), config.num_channels, config.num_classes)
+    model = get_model(config.model, (config.image_height, config.image_width, config.num_channels), config.num_classes)
     
     # set the callbacks
     tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir)
@@ -57,9 +57,9 @@ if __name__ == '__main__':
     # start training
     model.fit(train_dataset,
                 epochs= config.EPOCHS,
-                steps_per_epoch= train_dataset.samples // config.BATCH_SIZE,
+                steps_per_epoch= train_dataset.samples // config.TRAIN_BATCH_SIZE,
                 validation_data=valid_dataset,
-                validation_steps= valid_dataset.samples // config.BATCH_SIZE,
+                validation_steps= valid_dataset.samples // config.VALID_BATCH_SIZE,
                 callbacks=callback_list,
                 verbose=1)
 
