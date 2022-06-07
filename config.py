@@ -8,14 +8,14 @@ image_height = 227
 image_width = 227
 num_channels = 3
 
-EPOCHS = 3
+EPOCHS = 1
 TRAIN_BATCH_SIZE = 2
 VALID_BATCH_SIZE = 2
 TEST_BATCH_SIZE = 32
 
-optimizer = "sgd"
-optimizer = "adam"
-optimizer = "rmsprop"
+optimizer_fn = "sgd"
+optimizer_fn = "adam"
+optimizer_fn = "rmsprop"
 
 learning_rate = 0.01
 momentum = 0.9
@@ -27,10 +27,10 @@ model = "alexNet"
 # model = "inception"
 
 # paths and directories
-result_dir = '/content/deep-learning-model-evaluation/results'
-train_dir = "/content/deep-learning-model-evaluation/datasets/DogvCat/train"
-valid_dir = "/content/deep-learning-model-evaluation/datasets/DogvCat/valid"
-test_dir = "/content/deep-learning-model-evaluation/datasets/DogvCat/test"
+result_dir = 'results'
+train_dir = "/content/train"
+valid_dir = "/content/valid"
+test_dir = "/content/test"
 
 # model version
 ## follow this versioning rule 
