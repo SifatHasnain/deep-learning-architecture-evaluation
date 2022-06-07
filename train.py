@@ -1,4 +1,5 @@
 import os
+from pickletools import optimize
 
 from tensorflow.keras import Model
 import tensorflow as tf
@@ -8,20 +9,25 @@ import config
 import models
 from dataprep import generate_train_dataset
 
-def get_model(model_name, input_shape, num_classes):
-    
-    model = models.AlexNet(input_shape,num_classes)
-    # if model_name == "cnn":
-    #     model = models.CNN()
-    # elif model_name == "alexnet":
-    #     model = models.Alexnet(input_shape.image_height, input_shape.image_width)
-    # elif model_name == "resnet":
-    #     model = models.Resnet()
-    # else:
-    #     model = models.InceptionNet()
-
-    #model.build(input_shape=(input_shape.image_height, input_shape.image_width, num_channels), num_classes=num_classes)
-    model.summary()
+def get_model(model_name, input_shape, num_classes, optimizer_fn):
+ 
+    if model_name == "cnn":
+        model = models.CNN()
+    elif model_name == "alexnet":
+        model = models.AlexNet(input_shape, num_classes)
+    elif model_name == "resnet":
+        model = models.Resnet()
+    else:
+        model = models.InceptionNet()
+    # model.summary()
+    if optimizer_fn == 'sgd':
+        optimizer = tf.keras.optimizers.SGD(0.01, 0.9)
+    else:
+        print("add another optimizer like Adam or RMSprop")
+    model.compile(optimizer= optimizer,
+                    loss='categorical_crossentropy',
+                    metrics=['accuracy'])
+  
 
     return model
 
@@ -45,7 +51,7 @@ if __name__ == '__main__':
     train_dataset, valid_dataset = generate_train_dataset(train_data_config)
 
     # create model
-    model = get_model(config.model, (config.image_height, config.image_width, config.num_channels), config.num_classes)
+    model = get_model(config.model, (config.image_height, config.image_width, config.num_channels), config.num_classes, config.optimizer_fn)
     
     # set the callbacks
     tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir)
@@ -59,11 +65,11 @@ if __name__ == '__main__':
                 epochs= config.EPOCHS,
                 steps_per_epoch= train_dataset.samples // config.TRAIN_BATCH_SIZE,
                 validation_data=valid_dataset,
-                validation_steps= valid_dataset.samples // config.VALID_BATCH_SIZE,
+                validation_steps= valid_dataset.samples // config.TEST_BATCH_SIZE,
                 callbacks=callback_list,
                 verbose=1)
 
     # save model
-    model_name="{}_{}_dogcat.h5".format(config.model, config.version)
+    model_name="{}_{}_dogcat".format(config.model, config.version)
     model_save_path = os.path.join(result_save_path, model_name)
     model.save(model_save_path)
