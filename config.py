@@ -14,23 +14,23 @@ VALID_BATCH_SIZE = 2
 TEST_BATCH_SIZE = 32
 
 optimizer_fn = "sgd"
-optimizer_fn = "adam"
-optimizer_fn = "rmsprop"
+# optimizer_fn = "adam"
+# optimizer_fn = "rmsprop"
 
 learning_rate = 0.01
 momentum = 0.9
 
 # networks
-# model = "cnn"
-model = "alexNet"
+model = "cnn"
+#model = "alexNet"
 # model = "resnet"
 # model = "inception"
 
 # paths and directories
-result_dir = 'results'
-train_dir = "/content/train"
-valid_dir = "/content/valid"
-test_dir = "/content/test"
+result_dir = '/content/deep-learning-model-evaluation/results'
+train_dir = "/content/deep-learning-model-evaluation/datasets/DogvCat/train"
+valid_dir = "/content/deep-learning-model-evaluation/datasets/DogvCat/valid"
+test_dir = "/content/deep-learning-model-evaluation/datasets/DogvCat/test"
 
 # model version
 ## follow this versioning rule 
