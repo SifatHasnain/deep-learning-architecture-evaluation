@@ -12,8 +12,8 @@ from dataprep import generate_train_dataset
 def get_model(model_name, input_shape, num_classes, optimizer_fn):
  
     if model_name == "cnn":
-        model = models.CNN()
-    elif model_name == "alexnet":
+        model = models.CNN(input_shape, num_classes)
+    elif model_name == "alexNet":
         model = models.AlexNet(input_shape, num_classes)
     elif model_name == "resnet":
         model = models.Resnet()
@@ -49,7 +49,7 @@ if __name__ == '__main__':
 
     # get the original_dataset
     train_dataset, valid_dataset = generate_train_dataset(train_data_config)
-
+    print(config.optimizer_fn)
     # create model
     model = get_model(config.model, (config.image_height, config.image_width, config.num_channels), config.num_classes, config.optimizer_fn)
     
