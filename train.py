@@ -18,7 +18,7 @@ def get_model(model_name, input_shape, num_classes, optimizer_fn):
     elif model_name == "resnet":
         model = models.Resnet()
     else:
-        model = models.InceptionNet()
+        model = models.InceptionNet(input_shape, num_classes, num_filters=64, problem_type="Classification", dropout_rate=0.4)
     # model.summary()
     if optimizer_fn == 'sgd':
         optimizer = tf.keras.optimizers.SGD(0.01, 0.9)
