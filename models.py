@@ -433,7 +433,7 @@ class InceptionNet(Model):
         self.final_output = MLP(self.pooling, self.dropout_rate, self.problem_type, self.num_classes)
         
 
-  def call(self, X):
+  def call(self, X, training=False):
         inputs = self.inputs(X)
         # Stem
         x = self.stem_conv7x7(inputs)
@@ -445,7 +445,7 @@ class InceptionNet(Model):
         x = self.inception_block_1(x)  # Inception Block 1
         x = self.inception_block_2(x)  # Inception Block 2
 
-        aux_output_0 = self.auxiliary_output_1(x)
+        aux_output_0 = self.auxiliary_output_1(x, training=training)
 
         x = self.maxPool1(x)
         x = self.inception_block_3(x)  # Inception Block 3
@@ -454,7 +454,7 @@ class InceptionNet(Model):
         x = self.inception_block_6(x)  # Inception Block 6
         x = self.inception_block_7(x)  # Inception Block 7
 
-        aux_output_1 = self.auxiliary_output_1(x)
+        aux_output_1 = self.auxiliary_output_1(x, training=training)
 
         x = self.maxPool2(x)
         x = self.inception_block_8(x)  # Inception Block 8
@@ -462,5 +462,7 @@ class InceptionNet(Model):
 
         # Final Dense MLP Layer for the outputs
         final_output = self.final_output(x)
-        model = Model(inputs, outputs=[final_output, aux_output_0, aux_output_1], name='Inception_v1')
-        return model
+        if training:
+            return final_output, aux_output_0, aux_output_1
+        else:
+            return final_output
