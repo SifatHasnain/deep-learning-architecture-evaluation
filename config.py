@@ -9,8 +9,8 @@ image_width = 227
 num_channels = 3
 
 EPOCHS = 1
-TRAIN_BATCH_SIZE = 2
-VALID_BATCH_SIZE = 2
+TRAIN_BATCH_SIZE = 32
+VALID_BATCH_SIZE = 32
 TEST_BATCH_SIZE = 32
 
 optimizer_fn = "sgd"
@@ -21,16 +21,16 @@ learning_rate = 0.01
 momentum = 0.9
 
 # networks
-model = "cnn"
+# model = "cnn"
 #model = "alexNet"
 # model = "resnet"
-# model = "inception"
+model = "inception"
 
 # paths and directories
-result_dir = '/content/deep-learning-model-evaluation/results'
-train_dir = "/content/deep-learning-model-evaluation/datasets/DogvCat/train"
-valid_dir = "/content/deep-learning-model-evaluation/datasets/DogvCat/valid"
-test_dir = "/content/deep-learning-model-evaluation/datasets/DogvCat/test"
+result_dir = '/home/ibrahim/HyperParamTuning/deep-learning-model-evaluation/results'
+train_dir = "/home/ibrahim/HyperParamTuning/deep-learning-model-evaluation/datasets/DogvCat/train"
+valid_dir = "/home/ibrahim/HyperParamTuning/deep-learning-model-evaluation/datasets/DogvCat/dev"
+test_dir = "/home/ibrahim/HyperParamTuning/deep-learning-model-evaluation/datasets/DogvCat/test"
 
 # model version
 ## follow this versioning rule 
