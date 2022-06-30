@@ -1,7 +1,4 @@
 import os
-from pickletools import optimize
-
-from tensorflow.keras import Model
 import tensorflow as tf
 from tensorflow.keras.callbacks import ReduceLROnPlateau
 
@@ -13,12 +10,12 @@ def get_model(model_name, input_shape, num_classes, optimizer_fn):
  
     if model_name == "cnn":
         model = models.CNN(input_shape, num_classes)
-    elif model_name == "alexNet":
+    elif model_name == "alexnet":
         model = models.AlexNet(input_shape, num_classes)
     elif model_name == "resnet":
-        model = models.Resnet()
-    else:
-        model = models.InceptionNet()
+        model = models.Resnet(input_shape, num_classes)
+    elif model_name == "inceptionv1":
+        model = models.InceptionNet(input_shape, num_classes, num_filters=64, problem_type="Classification", dropout_rate=0.4)
     # model.summary()
     if optimizer_fn == 'sgd':
         optimizer = tf.keras.optimizers.SGD(config.learning_rate, config.momentum)
@@ -45,6 +42,7 @@ if __name__ == '__main__':
 
     # load configs and resolve paths
     train_data_config = (config.train_dir, config.valid_dir, config.image_height, config.image_width, config.TRAIN_BATCH_SIZE, config.VALID_BATCH_SIZE)
+    print(train_data_config)
     result_save_path = os.path.join(config.result_dir, config.model)
     if not os.path.exists(result_save_path):
         os.mkdir(result_save_path)
