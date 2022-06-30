@@ -44,11 +44,11 @@ class AlexNet(Model):
     
         self.flatten1 = Flatten()
         self.dropout1 = Dropout(0.5)
-        self.fc1 = Dense(2048, activation= 'relu')
+        self.fc1 = Dense(4096, activation= 'relu')
         self.dropout2 = Dropout(0.5)
-        self.fc2 = Dense(2048, activation= 'relu')
-        self.fc3 = Dense(1000, activation= 'relu')
-        self.fc4 = Dense(num_classes, activation= 'softmax')
+        self.fc2 = Dense(4096, activation= 'relu')
+        # self.fc3 = Dense(1000, activation= 'relu')
+        self.fc3 = Dense(num_classes, activation= 'softmax')
         
     def call(self, input_tensor, training=False):
         
@@ -68,7 +68,7 @@ class AlexNet(Model):
         x = self.dropout2(x, training=training)
         x = self.fc2(x)
         x = self.fc3(x)
-        x = self.fc4(x)
+        # x = self.fc4(x)
     
         return x
 #cnn
@@ -462,5 +462,5 @@ class InceptionNet(Model):
 
         # Final Dense MLP Layer for the outputs
         final_output = self.final_output(x)
-        model = Model(inputs, outputs=[final_output, aux_output_0, aux_output_1], name='Inception_v1')
-        return model
+        # model = Model(inputs, outputs=[final_output, aux_output_0, aux_output_1], name='Inception_v1')
+        return final_output, aux_output_0, aux_output_1

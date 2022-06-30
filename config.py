@@ -9,8 +9,8 @@ image_width = 227
 num_channels = 3
 
 EPOCHS = 1
-TRAIN_BATCH_SIZE = 2
-VALID_BATCH_SIZE = 2
+TRAIN_BATCH_SIZE = 32
+VALID_BATCH_SIZE = 32
 TEST_BATCH_SIZE = 32
 
 optimizer_fn = "sgd"
@@ -22,9 +22,12 @@ momentum = 0.9
 
 # networks
 model = "cnn"
-#model = "alexNet"
+#model = "alexnet"
 # model = "resnet"
-# model = "inception"
+# model = "inceptionv1"
+# model = "inceptionv2"
+# model = "inceptionv3"
+# model = "inceptionv4"
 
 # paths and directories
 result_dir = '/content/deep-learning-model-evaluation/results'
