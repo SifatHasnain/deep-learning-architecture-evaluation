@@ -1,1 +1,3 @@
 tesnorflow
+pillow
+scipy

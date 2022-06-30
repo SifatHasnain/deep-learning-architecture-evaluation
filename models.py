@@ -343,11 +343,12 @@ class Conv_2D_Block(layers.Layer):
   def __init__(self, filters, kernel, strides=(1, 1), padding="same", activation = "relu"):
         super(Conv_2D_Block, self).__init__(name='conv_2D_block')
         self.conv = Conv2D(filters, kernel, strides=strides, padding=padding, kernel_initializer="he_normal")
+        self.batch_normalizer = BatchNormalization()
         self.activation = Activation(activation)
         
   def call(self, inputs):
         x = self.conv(inputs)
-        x = BatchNormalization()(x)
+        x = self.batch_normalizer(x)
         x = self.activation(x)
         return x
 
@@ -381,15 +382,17 @@ class MLP(layers.Layer):
   def __init__(self, pooling, dropout_rate, problem_type, num_classes):
         super(MLP, self).__init__(name='MLP')
         self.pooling = GlobalAveragePooling2D() if pooling == 'avg' else GlobalMaxPooling2D()
-        self.dropout = Dropout(dropout_rate) if dropout_rate else False
+        self.flatten = Flatten()
+        self.dropout = Dropout(dropout_rate)
+        self.dense = Dense(num_classes)
         self.output_layer = Dense(num_classes, activation = 'softmax' if problem_type == 'Classification' else 'linear')
         
-  def call(self, inputs):
+  def call(self, inputs, training=False):
+        print(f"{'training..' if training else 'testing..'}")
         x = self.pooling(inputs)
-        # Final Dense Outputting Layer for the outputs
-        x = Flatten()(x)
-        if self.dropout:
-            x = self.dropout(x)
+        x = self.flatten(x)
+        x = self.dropout(x, training=training)
+        x = self.dense(x)
         outputs = self.output_layer(x)
         return outputs
 
@@ -411,7 +414,7 @@ class InceptionNet(Model):
   def __init__(self, input_shape, num_classes, num_filters, problem_type='Regression', pooling='avg', dropout_rate=False):
         super(InceptionNet, self).__init__(name='InceptionNet')
 
-        self.inputs = tf.keras.layers.Input(input_shape)
+        # self.inputs = tf.keras.layers.Input(input_shape)
         self.stem_conv7x7 = Conv_2D_Block(num_filters, (7, 7), strides=(2, 2))
         self.stem_maxPool_1 = MaxPooling2D((3, 3), strides=(2, 2))
         self.stem_conv3x3 = Conv_2D_Block(num_filters*3, (3, 3))
@@ -430,13 +433,14 @@ class InceptionNet(Model):
         self.maxPool2 = MaxPooling2D((3, 3), strides=(2, 2))
         self.auxiliary_output_1 = Auxilliary_Module(pooling, dropout_rate, problem_type, num_classes, 1)
         self.auxiliary_output_2 = Auxilliary_Module(pooling, dropout_rate, problem_type, num_classes, 2)
-        self.final_output = MLP(self.pooling, self.dropout_rate, self.problem_type, self.num_classes)
+        self.final_output = MLP(pooling, dropout_rate, problem_type, num_classes)
         
 
-  def call(self, X):
-        inputs = self.inputs(X)
+  def call(self, X, training=False):
+        print ('training') if training else print('test')
+        # inputs = self.inputs(X)
         # Stem
-        x = self.stem_conv7x7(inputs)
+        x = self.stem_conv7x7(X)
         x = self.stem_maxPool_1(x)
         x = self.stem_conv3x3(x)
         x = self.stem_conv1x1(x)
@@ -445,18 +449,18 @@ class InceptionNet(Model):
         x = self.inception_block_1(x)  # Inception Block 1
         x = self.inception_block_2(x)  # Inception Block 2
 
-        aux_output_0 = self.auxiliary_output_1(x)
-
+        aux_output_0 = self.auxiliary_output_1(x, training=training)
         x = self.maxPool1(x)
+
         x = self.inception_block_3(x)  # Inception Block 3
         x = self.inception_block_4(x)  # Inception Block 4
         x = self.inception_block_5(x)  # Inception Block 5
         x = self.inception_block_6(x)  # Inception Block 6
         x = self.inception_block_7(x)  # Inception Block 7
 
-        aux_output_1 = self.auxiliary_output_1(x)
-
+        aux_output_1 = self.auxiliary_output_2(x, training=training)
         x = self.maxPool2(x)
+
         x = self.inception_block_8(x)  # Inception Block 8
         x = self.inception_block_9(x)  # Inception Block 9
 

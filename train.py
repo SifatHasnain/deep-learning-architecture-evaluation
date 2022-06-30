@@ -1,7 +1,4 @@
 import os
-from pickletools import optimize
-
-from tensorflow.keras import Model
 import tensorflow as tf
 from tensorflow.keras.callbacks import ReduceLROnPlateau
 
@@ -40,6 +37,7 @@ if __name__ == '__main__':
 
     # load configs and resolve paths
     train_data_config = (config.train_dir, config.valid_dir, config.image_height, config.image_width, config.TRAIN_BATCH_SIZE, config.VALID_BATCH_SIZE)
+    print(train_data_config)
     result_save_path = os.path.join(config.result_dir, config.model)
     if not os.path.exists(result_save_path):
         os.mkdir(result_save_path)
