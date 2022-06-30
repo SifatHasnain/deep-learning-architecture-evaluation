@@ -21,9 +21,14 @@ def get_model(model_name, input_shape, num_classes, optimizer_fn):
         model = models.InceptionNet()
     # model.summary()
     if optimizer_fn == 'sgd':
-        optimizer = tf.keras.optimizers.SGD(0.01, 0.9)
+        optimizer = tf.keras.optimizers.SGD(config.learning_rate, config.momentum)
+    elif optimizer_fn == 'adam':
+        optimizer = tf.keras.optimizers.Adam(config.learning_rate, config.momentum)
+    elif optimizer_fn == 'rmsprop':
+        optimizer = tf.keras.optimizers.RMSprop(config.learning_rate, config.momentum)
     else:
-        print("add another optimizer like Adam or RMSprop")
+        print("add another optimizer")
+    
     model.compile(optimizer= optimizer,
                     loss='categorical_crossentropy',
                     metrics=['accuracy'])
