@@ -8,6 +8,7 @@ from dataprep import generate_test_dataset
 
 from tensorflow import keras
 from sklearn.metrics import confusion_matrix
+import config
 
 def evaluate():
     # get the test_dataset
@@ -16,7 +17,14 @@ def evaluate():
         
 
     result_save_path = os.path.join(result_dir, model)
-    model_name = "{}_{}_dogcat".format(model, version)
+    
+    if config.data == "DogvCat":
+        model_name="{}_{}_dogcat".format(config.model, config.version)
+    elif config.data == "mnist":
+        model_name="{}_{}_mnist".format(config.model, config.version)  
+        
+    # model_name = "{}_{}_dogcat".format(model, version)
+    
     model_save_path = os.path.join(result_save_path, model_name)
    
     loaded_model = keras.models.load_model(model_save_path)

@@ -73,6 +73,10 @@ if __name__ == '__main__':
                 verbose=1)
 
     # save model
-    model_name="{}_{}_dogcat".format(config.model, config.version)
+    if config.data == "DogvCat":
+        model_name="{}_{}_dogcat".format(config.model, config.version)
+    elif config.data == "mnist":
+        model_name="{}_{}_mnist".format(config.model, config.version)    
+    
     model_save_path = os.path.join(result_save_path, model_name)
     model.save(model_save_path)
