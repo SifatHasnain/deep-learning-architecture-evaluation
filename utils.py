@@ -33,6 +33,8 @@ def evaluate():
     predict_x = loaded_model.predict(test_dataset) 
     
     pred = np.round(predict_x)
+    if model == 'inception':
+      pred = pred[:][0]
     pred = np.argmax(pred,axis=1)
 
     pred = pred.tolist()
