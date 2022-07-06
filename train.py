@@ -16,6 +16,12 @@ def get_model(model_name, input_shape, num_classes, optimizer_fn):
         model = models.Resnet(input_shape, num_classes)
     elif model_name == "inceptionv1":
         model = models.InceptionNet(input_shape, num_classes, num_filters=64, problem_type="Classification", dropout_rate=0.4)
+    elif model_name == "inceptionv2":
+        model = models.Inception(input_shape, num_filters=32, problem_type="Classification", output_nums=num_classes, pooling='avg', dropout_rate=False, auxilliary_outputs=False).Inception_v2()
+    elif model_name == "inceptionv3":
+        model = models.Inception(input_shape, num_filters=64, problem_type="Classification", output_nums=num_classes, pooling='avg', dropout_rate=False, auxilliary_outputs=False).Inception_v3()
+    elif model_name == "inceptionv4":
+        model = models.Inception(input_shape, num_filters=64, problem_type="Classification", output_nums=num_classes, pooling='avg', dropout_rate=False, auxilliary_outputs=False).Inception_v4()
     # model.summary()
     if optimizer_fn == 'sgd':
         optimizer = tf.keras.optimizers.SGD(config.learning_rate, config.momentum)
